@@ -2,6 +2,9 @@
 import os
 os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 
+import tensorflow as tf
+tf.config.set_visible_devices([], 'GPU')  # TF uses CPU, must be before JAX import
+
 import jax
 import jax.numpy as jnp
 from waymax import config, dataloader, visualization
@@ -12,7 +15,7 @@ print(f"JAX device: {jax.devices()}")
 # Explicitly point to the correct GCS path
 data_config = config.DatasetConfig(
     path='gs://waymo_open_dataset_motion_v_1_2_0/uncompressed/tf_example/training/training_tfexample.tfrecord-00000-of-01000',
-    max_num_objects=8,
+    max_num_objects=16,
 )
 
 scenarios = dataloader.simulator_state_generator(data_config)
@@ -32,5 +35,5 @@ print(f"SDC index: {jnp.where(scenario.object_metadata.is_sdc)[0]}")
 img = visualization.plot_simulator_state(scenario, use_log_traj=True)
 plt.imshow(img)
 plt.axis('off')
-plt.savefig("scenario_render.png", dpi=150, bbox_inches="tight")
+plt.savefig("figs/scenario_render.png", dpi=150, bbox_inches="tight")
 print("Saved scenario_render.png")
