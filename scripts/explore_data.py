@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 print(f"JAX device: {jax.devices()}")
 
 # Explicitly point to the correct GCS path
+# max_num_objects=16 — 32 causes OOM on RTX 3070 (8GB) due to TF/JAX memory sharing
 data_config = config.DatasetConfig(
     path='gs://waymo_open_dataset_motion_v_1_2_0/uncompressed/tf_example/training/training_tfexample.tfrecord-00000-of-01000',
     max_num_objects=16,
