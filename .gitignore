@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+wandb/
+checkpoints/
+*.tfrecord
+data/
+*.egg-info/
+dist/
+.env
